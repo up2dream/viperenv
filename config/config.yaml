@@ -1,0 +1,9 @@
+app:
+  profiles:
+    include:
+      - inc1
+      - inc2
+  db:
+    mysql:
+      user: root
+      password: pass

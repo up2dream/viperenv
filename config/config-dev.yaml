@@ -1,0 +1,4 @@
+app:
+  db:
+    mysql:
+      user: root-dev

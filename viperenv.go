@@ -13,7 +13,7 @@ const (
 
 func ReadConfig() *viper.Viper {
 	config := readConfig("")
-	config.SetDefault("profiles.active", "dev")
+	config.SetDefault("app.profiles.active", "dev")
 	includeProfiles := config.Get(keyProfilesInclude)
 	if includeProfiles != nil {
 		if _, ok := includeProfiles.(string); ok {
