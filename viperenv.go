@@ -3,6 +3,7 @@ package viperenv
 import (
 	"fmt"
 	"github.com/spf13/viper"
+	"os"
 	"strings"
 )
 
@@ -13,7 +14,7 @@ const (
 
 func ReadConfig() *viper.Viper {
 	config := readConfig("")
-	config.SetDefault("app.profiles.active", "dev")
+	config.SetDefault(keyProfilesActive, "dev")
 	includeProfiles := config.Get(keyProfilesInclude)
 	if includeProfiles != nil {
 		if _, ok := includeProfiles.(string); ok {
@@ -26,7 +27,11 @@ func ReadConfig() *viper.Viper {
 			}
 		}
 	}
-	activeProfile := config.Get(keyProfilesActive)
+	var activeProfile interface{} = os.Getenv(keyProfilesActive)
+	if len(strings.TrimSpace(activeProfile.(string))) == 0 {
+		activeProfile = config.Get(keyProfilesActive)
+	}
+	fmt.Printf("Current config: %s\n", activeProfile)
 	if activeProfile != nil {
 		configDev := readConfig(activeProfile.(string))
 		config.MergeConfigMap(configDev.AllSettings())
