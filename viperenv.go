@@ -12,7 +12,9 @@ const (
 	keyProfilesInclude = "app.profiles.include"
 )
 
-func ReadConfig() *viper.Viper {
+var Config = readConfigAll()
+
+func readConfigAll() *viper.Viper {
 	config := readConfig("")
 	config.SetDefault(keyProfilesActive, "dev")
 	includeProfiles := config.Get(keyProfilesInclude)
