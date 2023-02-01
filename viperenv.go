@@ -1,3 +1,14 @@
+// Package viperenv
+// 配置文件必须放在config目录下，文件名为config.yaml
+// 特定环境的配置文件为config-<profile>.yaml，<profile>为环境变量app.profiles.active的值，如果没有设置环境变量，
+// 则使用config.yaml中的app.profiles.active的值，如果没有设置app.profiles.active的值，则使用dev作为<profile>的值。
+// 如果有多个附加配置文件，则可以在config.yaml中设置app.profiles.include的值，值可以是一个字符串，也可以是一个字符串数组。
+// 例如：
+// app:
+//
+//	profiles:
+//	  active: dev
+//	  include: [dev, test]
 package viperenv
 
 import (
