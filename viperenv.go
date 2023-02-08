@@ -1,5 +1,5 @@
 // Package viperenv
-// 配置文件必须放在config目录下，文件名为config.yaml
+// 配置文件必须放在config目录下，文件名为config.yaml，如果不存在则在VIPERENV_CONFIG_PATH环境变量中指定的路径下查找配置文件。
 // 特定环境的配置文件为config-<profile>.yaml，<profile>为环境变量app.profiles.active的值，如果没有设置环境变量，
 // 则使用config.yaml中的app.profiles.active的值，如果没有设置app.profiles.active的值，则使用dev作为<profile>的值。
 // 如果有多个附加配置文件，则可以在config.yaml中设置app.profiles.include的值，值可以是一个字符串，也可以是一个字符串数组。
@@ -62,6 +62,10 @@ func readConfig(env string) *viper.Viper {
 	configType := "yaml"
 	config.SetConfigType(configType)
 	config.AddConfigPath("./config")
+	configPath := os.Getenv("VIPERENV_CONFIG_PATH")
+	if len(configPath) != 0 {
+		config.AddConfigPath(configPath)
+	}
 	if err := config.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
 			fmt.Printf("Config file(%s.%s) not found, ignore...\n", configName, configType)
